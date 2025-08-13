@@ -1,4 +1,3 @@
-import os
 import time
 from kafka import KafkaConsumer, KafkaProducer
 import json
@@ -33,9 +32,11 @@ def create_kafka_consumer():
             if attempt < max_retries - 1:
                 print(f"Retrying in {retry_delay} seconds...")
                 time.sleep(retry_delay)
+                return None
             else:
                 print("Failed to create Kafka consumer after all retries")
                 raise
+    return None
 
 
 def create_kafka_producer():

@@ -5,7 +5,6 @@ from kafka import KafkaProducer
 import json
 import sys
 
-# Конфигурация из environment variables
 KAFKA_BOOTSTRAP_SERVERS = os.getenv('KAFKA_BOOTSTRAP_SERVERS')
 TOPIC_REVIEWS = os.getenv('TOPIC_REVIEWS')
 DB_HOST = os.getenv('DB_HOST')
@@ -35,9 +34,11 @@ def create_kafka_producer():
             if attempt < max_retries - 1:
                 print(f"Retrying in {retry_delay} seconds...")
                 time.sleep(retry_delay)
+                return None
             else:
                 print("Failed to create Kafka producer after all retries")
                 raise
+    return None
 
 
 def get_db_connection():

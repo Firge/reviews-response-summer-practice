@@ -6,7 +6,6 @@ import json
 import sys
 from time import sleep
 
-# Конфигурация из environment variables
 KAFKA_BOOTSTRAP_SERVERS = os.getenv('KAFKA_BOOTSTRAP_SERVERS')
 TOPIC_RESPONSES = os.getenv('TOPIC_RESPONSES')
 DB_HOST = os.getenv('DB_HOST')
@@ -37,9 +36,11 @@ def create_kafka_consumer():
             if attempt < max_retries - 1:
                 print(f"Retrying in {retry_delay} seconds...")
                 time.sleep(retry_delay)
+                return None
             else:
                 print("Failed to create Kafka consumer after all retries")
                 raise
+    return None
 
 
 def get_db_connection():
@@ -63,9 +64,11 @@ def get_db_connection():
             if attempt < max_retries - 1:
                 print(f"Retrying in {retry_delay} seconds...")
                 time.sleep(retry_delay)
+                return None
             else:
                 print("Failed to connect to database after all retries")
                 raise
+    return None
 
 
 def save_response(data):
